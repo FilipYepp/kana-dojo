@@ -177,7 +177,7 @@ const baseThemeSets: BaseThemeGroup[] = [
       },
       {
         id: 'tsukimi-night',
-        displayName: 'Tsukimi Night',
+        displayName: 'tsukimi night',
         backgroundColor: 'oklch(14.0% 0.030 260.0 / 1)',
         mainColor: 'oklch(88.0% 0.050 230.0 / 1)',
         secondaryColor: 'oklch(68.0% 0.075 260.0 / 1)',
@@ -386,7 +386,7 @@ const baseThemeSets: BaseThemeGroup[] = [
         secondaryColor: 'oklch(79.5% 0.205 28.0 / 1)', // deep coral
       },
       {
-        id: 'yumemizu-deepdream',
+        id: 'deepdream',
         backgroundColor: 'oklch(20.5% 0.012 288.7 / 1)',
         mainColor: 'oklch(90.4% 0.216 274.7 / 1)',
         secondaryColor: 'oklch(92.6% 0.173 338.0 / 1)',
