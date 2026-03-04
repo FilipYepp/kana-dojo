@@ -275,7 +275,7 @@
     "mainColor": "oklch(60.0% 0.210 25.0 / 1)",
     "secondaryColor": "oklch(82.0% 0.145 85.0 / 1)",
     "issued": false,
-    "completed": false,
+    "completed": true,
     "completedBy": "kalinatringas",
     "completedPR": 5027
   },
@@ -983,7 +983,7 @@
     "mainColor": "oklch(78.0% 0.160 45.0 / 1)",
     "secondaryColor": "oklch(85.0% 0.120 85.0 / 1)",
     "issued": false,
-    "completed": false,
+    "completed": true,
     "completedBy": "mustafaguler3",
     "completedPR": 5332
   },
@@ -995,7 +995,7 @@
     "mainColor": "oklch(68.0% 0.185 40.0 / 1)",
     "secondaryColor": "oklch(78.0% 0.135 55.0 / 1)",
     "issued": false,
-    "completed": false,
+    "completed": true,
     "completedBy": "Tarjmul810",
     "completedPR": 5341
   },
@@ -1007,7 +1007,7 @@
     "mainColor": "oklch(80.0% 0.210 345.0 / 1)",
     "secondaryColor": "oklch(85.0% 0.175 180.0 / 1)",
     "issued": false,
-    "completed": false,
+    "completed": true,
     "completedBy": "shihabhasan0161",
     "completedPR": 5364
   },
@@ -1018,7 +1018,7 @@
     "backgroundColor": "oklch(94.0% 0.020 95.0 / 1)",
     "mainColor": "oklch(65.0% 0.180 350.0 / 1)",
     "secondaryColor": "oklch(72.0% 0.145 130.0 / 1)",
-    "issued": false,
+    "issued": true,
     "completed": false,
     "completedBy": "KimTram",
     "completedPR": 5365
