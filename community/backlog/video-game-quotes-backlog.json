@@ -276,8 +276,10 @@
     "game": "Kingdom Hearts series (JP dub)",
     "character": "Sora",
     "id": 28,
-    "issued": true,
-    "completed": false
+    "issued": false,
+    "completed": true,
+    "completedBy": "Kubudak90",
+    "completedPR": 8030
   },
   {
     "japanese": "負ける気がしない",
