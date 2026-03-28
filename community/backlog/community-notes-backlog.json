@@ -37,7 +37,7 @@
     "position": "bottom",
     "text": "- Additional community note preserved for documentation housekeeping.",
     "issued": false,
-    "completed": true,
+    "completed": false,
     "completedBy": "XiaoPengMei",
     "completedPR": 10336
   }

@@ -21,7 +21,7 @@
     "kigo": "Summer grasses (natsukusa)",
     "notes": "Reflects impermanence through a historical battlefield image.",
     "issued": false,
-    "completed": true
+    "completed": false
   },
   {
     "id": 3,
@@ -81,7 +81,7 @@
     "kigo": "Sparrow chicks (suzume no ko)",
     "notes": "Playful and warm, characteristic of Issa's tone.",
     "issued": false,
-    "completed": true
+    "completed": false
   },
   {
     "id": 8,
@@ -117,7 +117,7 @@
     "kigo": "Frog (kaeru)",
     "notes": "Humorous encouragement and compassion in Issa's voice.",
     "issued": false,
-    "completed": true
+    "completed": false
   },
   {
     "id": 11,
@@ -141,6 +141,6 @@
     "kigo": "Spring sea (haru no umi)",
     "notes": "Known for musical phrasing and calm motion.",
     "issued": false,
-    "completed": true
+    "completed": false
   }
 ]
