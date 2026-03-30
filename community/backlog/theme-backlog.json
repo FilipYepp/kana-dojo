@@ -157,7 +157,9 @@
     "mainColor": "oklch(55.0% 0.165 250.0 / 1)",
     "secondaryColor": "oklch(85.0% 0.065 90.0 / 1)",
     "issued": false,
-    "completed": false
+    "completed": false,
+    "completedBy": "chiradeep-nanabala",
+    "completedPR": 11024
   },
   {
     "id": "shinkansen-speed",
@@ -611,7 +613,9 @@
     "mainColor": "oklch(65.0% 0.195 40.0 / 1)",
     "secondaryColor": "oklch(75.0% 0.145 85.0 / 1)",
     "issued": false,
-    "completed": false
+    "completed": false,
+    "completedBy": "S2DS23F3001178",
+    "completedPR": 11026
   },
   {
     "id": "onsen-steam",
@@ -1944,7 +1948,9 @@
     "backgroundColor": "oklch(22.0% 0.025 95.0 / 1)",
     "mainColor": "oklch(84.0% 0.120 95.0 / 1)",
     "secondaryColor": "oklch(68.0% 0.090 60.0 / 1)",
-    "issued": true,
-    "completed": false
+    "issued": false,
+    "completed": false,
+    "completedBy": "Bluestone-456",
+    "completedPR": 11008
   }
 ]

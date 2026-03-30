@@ -57,7 +57,7 @@ KanaDojo is an engaging and user-friendly web-based Japanese learning platform t
 
 Start with the [Beginner's Contribution Guide](./docs/CONTRIBUTING-BEGINNERS.md) for a step-by-step walkthrough that explains everything from creating a GitHub account to opening your first PR.
 
-### Not a beginner?
+### Not a Beginner?
 
 All contributions are welcome! Whether you're fixing bugs, adding features, improving documentation, or translating — check out [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
 
@@ -142,7 +142,7 @@ npm run check
 
 </div>
 
-## Licence
+## License
 
 This project is licensed under the AGPL 3.0 License — see [LICENSE.md](./LICENSE.md) for details.
 
