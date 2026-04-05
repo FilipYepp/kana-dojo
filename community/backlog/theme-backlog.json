@@ -1650,10 +1650,10 @@
     "backgroundColor": "oklch(14.0% 0.030 260.0 / 1)",
     "mainColor": "oklch(88.0% 0.050 230.0 / 1)",
     "secondaryColor": "oklch(68.0% 0.075 260.0 / 1)",
-    "issued": true,
+    "issued": false,
     "completed": false,
-    "completedBy": "ezefernandezyf",
-    "completedPR": 11397
+    "completedBy": "Grace-00",
+    "completedPR": 11927
   },
   {
     "id": "gingko-gold",
