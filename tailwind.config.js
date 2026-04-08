@@ -30,9 +30,30 @@ const tailwindConfig = {
         aurora: 'aurora 6s ease-in-out infinite',
         shimmer: 'shimmer 2s infinite',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            '--tw-prose-body': 'var(--secondary-color)',
+            '--tw-prose-headings': 'var(--main-color)',
+            '--tw-prose-links': 'var(--main-color)',
+            '--tw-prose-bold': 'var(--main-color)',
+            '--tw-prose-counters': 'var(--border-color)',
+            '--tw-prose-bullets': 'var(--border-color)',
+            '--tw-prose-hr': 'var(--border-color)',
+            '--tw-prose-quotes': 'var(--main-color)',
+            '--tw-prose-quote-borders': 'var(--main-color)',
+            '--tw-prose-code': 'var(--main-color)',
+            '--tw-prose-pre-code': 'var(--main-color)',
+            '--tw-prose-pre-bg': 'var(--card-color)',
+            '--tw-prose-th-borders': 'var(--border-color)',
+            '--tw-prose-td-borders': 'var(--border-color)',
+            maxWidth: 'none',
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
 
 export default tailwindConfig;

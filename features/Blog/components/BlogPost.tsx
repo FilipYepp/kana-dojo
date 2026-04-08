@@ -95,7 +95,7 @@ export function BlogPost({
           {/* Hero Header Section */}
           <header className='mb-20 text-left'>
             <div className='mb-8 flex items-center gap-4'>
-              <span className='h-[1px] w-8 bg-(--main-color) opacity-20' />
+              <span className='h-px w-8 bg-(--main-color) opacity-20' />
               <span className='text-[10px] font-black tracking-[0.2em] text-(--main-color) uppercase'>
                 {post.category}
               </span>
@@ -158,10 +158,8 @@ export function BlogPost({
           </div>
 
           {/* Article Body Content */}
-          <main className='editorial-content mx-auto max-w-3xl lg:mx-0'>
-            <div className='editorial-drop-cap prose-lg prose-serif leading-[1.8] text-(--secondary-color)'>
-              {children}
-            </div>
+          <main className='mx-auto max-w-3xl lg:mx-0'>
+            {children}
 
             {/* Tag Dossier */}
             {post.tags.length > 0 && (
@@ -230,7 +228,7 @@ export function BlogPost({
 
             {/* Side Branding */}
             <div className='border-t border-dashed border-(--border-color) py-12 pl-8 select-none'>
-              <div className='premium-serif origin-left translate-x-12 rotate-[-90deg] text-5xl font-black text-(--main-color) italic opacity-[0.05]'>
+              <div className='premium-serif origin-left translate-x-12 -rotate-90 text-5xl font-black text-(--main-color) italic opacity-[0.05]'>
                 KanaDojo.
               </div>
             </div>
