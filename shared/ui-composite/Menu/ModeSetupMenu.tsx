@@ -11,28 +11,45 @@ import {
   ArrowLeft,
   CheckCircle2,
   Zap,
+  Swords,
+  Shield,
+  Skull,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { Link, useRouter } from '@/core/i18n/routing';
+import useGauntletSettingsStore from '@/shared/store/useGauntletSettingsStore';
+import {
+  DIFFICULTY_CONFIG,
+  REPETITION_OPTIONS,
+  type GauntletDifficulty,
+} from '@/shared/ui-composite/Gauntlet/types';
 
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 
-interface GameModesProps {
+interface ModeSetupMenuProps {
   isOpen: boolean;
   onClose: () => void;
   currentDojo: string;
   mode?: 'train' | 'blitz' | 'gauntlet';
 }
 
-const GameModes = ({
+const difficultyIcons: Record<GauntletDifficulty, React.ReactNode> = {
+  normal: <Shield size={20} />,
+  hard: <Zap size={20} />,
+  'instant-death': <Skull size={20} />,
+};
+
+const ModeSetupMenu = ({
   isOpen,
   onClose,
   currentDojo,
   mode = 'train',
-}: GameModesProps) => {
+}: ModeSetupMenuProps) => {
   const { playClick } = useClick();
   const router = useRouter();
+  const gauntletSettings = useGauntletSettingsStore();
+  const dojoType = currentDojo as 'kana' | 'kanji' | 'vocabulary';
 
   const durationStorageKey =
     currentDojo === 'kana'
@@ -44,6 +61,9 @@ const GameModes = ({
   const DURATION_OPTIONS = [30, 60, 90, 120, 180];
 
   const [challengeDuration, setChallengeDuration] = useState<number>(60);
+  const [gauntletDifficulty, setGauntletDifficulty] =
+    useState<GauntletDifficulty>('normal');
+  const [gauntletRepetitions, setGauntletRepetitions] = useState<number>(10);
 
   const persistDuration = useCallback(
     (duration: number) => {
@@ -100,14 +120,30 @@ const GameModes = ({
           ? selectedGameModeVocab
           : '';
 
-  const setSelectedGameMode =
-    currentDojo === 'kana'
-      ? setSelectedGameModeKana
-      : currentDojo === 'kanji'
-        ? setSelectedGameModeKanji
-        : currentDojo === 'vocabulary'
-          ? setSelectedGameModeVocab
-          : () => {};
+  const setSelectedGameMode = useMemo(
+    () =>
+      currentDojo === 'kana'
+        ? setSelectedGameModeKana
+        : currentDojo === 'kanji'
+          ? setSelectedGameModeKanji
+          : currentDojo === 'vocabulary'
+            ? setSelectedGameModeVocab
+            : () => {},
+    [
+      currentDojo,
+      setSelectedGameModeKana,
+      setSelectedGameModeKanji,
+      setSelectedGameModeVocab,
+    ],
+  );
+
+  useEffect(() => {
+    if (!isOpen || mode !== 'gauntlet') return;
+    const storedGauntletMode = gauntletSettings.getGameMode(dojoType);
+    setSelectedGameMode(storedGauntletMode);
+    setGauntletDifficulty(gauntletSettings.getDifficulty(dojoType));
+    setGauntletRepetitions(gauntletSettings.getRepetitions(dojoType));
+  }, [isOpen, mode, dojoType, gauntletSettings, setSelectedGameMode]);
 
   // Keyboard shortcuts: Escape to close, Enter to start training
   useEffect(() => {
@@ -193,6 +229,12 @@ const GameModes = ({
                 className='mx-auto text-(--secondary-color)'
               />
             )}
+            {mode === 'gauntlet' && (
+              <Swords
+                size={56}
+                className='mx-auto text-(--secondary-color)'
+              />
+            )}
             <h1 className='text-2xl font-bold text-(--main-color)'>
               {dojoLabel}{' '}
               {mode === 'blitz'
@@ -204,7 +246,9 @@ const GameModes = ({
             <p className='text-(--secondary-color)'>
               {mode === 'blitz'
                 ? 'Practice in a fast-paced, time-limited way'
-                : 'Practice in a classic, endless way'}
+                : mode === 'gauntlet'
+                  ? 'Master every character. No random help.'
+                  : 'Practice in a classic, endless way'}
             </p>
           </div>
 
@@ -215,91 +259,15 @@ const GameModes = ({
             compactLabel={kanaGroupNamesCompact}
           />
 
-          {/* Game Mode Cards */}
-          <div className='space-y-3'>
-            {gameModes.map(mode => {
-              const isSelected = mode.id === selectedGameMode;
-              const Icon = mode.icon;
-
-              return (
-                <button
-                  key={mode.id}
-                  onClick={() => {
-                    playClick();
-                    setSelectedGameMode(mode.id);
-                  }}
-                  className={clsx(
-                    'w-full rounded-2xl p-5 text-left hover:cursor-pointer',
-                    'flex items-center gap-4 border-2 bg-(--card-color)',
-                    isSelected
-                      ? 'border-(--main-color)'
-                      : 'border-(--border-color)',
-                  )}
-                >
-                  {/* Icon */}
-                  <div
-                    className={clsx(
-                      'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
-                      isSelected
-                        ? 'bg-(--main-color) text-(--background-color)'
-                        : 'bg-(--border-color) text-(--muted-color)',
-                    )}
-                  >
-                    <Icon
-                      size={24}
-                      /* className={cn(
-                        selectedGameMode.toLowerCase() === 'pick'
-                          ? 'fill-current'
-                          : ''
-                      )} */
-                    />
-                  </div>
-
-                  {/* Content */}
-                  <div className='min-w-0 flex-1'>
-                    <h3
-                      className={clsx(
-                        'text-lg font-medium',
-                        'text-(--main-color)',
-                      )}
-                    >
-                      {mode.title}
-                    </h3>
-                    <p className='mt-0.5 text-sm text-(--secondary-color)'>
-                      {mode.description}
-                      
-                    </p>
-                  </div>
-
-                  {/* Selection indicator */}
-                  <div
-                    className={clsx(
-                      'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
-                      isSelected
-                        ? 'border-(--secondary-color) bg-(--secondary-color)'
-                        : 'border-(--border-color)',
-                    )}
-                  >
-                    {isSelected && (
-                      <svg
-                        className='h-3 w-3 text-(--background-color)'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth={3}
-                          d='M5 13l4 4L19 7'
-                        />
-                      </svg>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+          {mode !== 'gauntlet' && (
+            <GameModeCards
+              gameModes={gameModes}
+              selectedGameMode={selectedGameMode}
+              onSelect={selectedMode => {
+                setSelectedGameMode(selectedMode);
+              }}
+            />
+          )}
 
           {mode === 'blitz' && (
             <div className='space-y-3 rounded-lg bg-(--card-color) p-4'>
@@ -333,6 +301,91 @@ const GameModes = ({
                 ))}
               </div>
             </div>
+          )}
+
+          {mode === 'gauntlet' && (
+            <>
+              <div className='space-y-3'>
+                <h3 className='text-sm text-(--main-color)'>Difficulty</h3>
+                <div className='flex w-full justify-center gap-1 rounded-[22px] bg-(--card-color) p-1.5'>
+                  {(
+                    Object.entries(DIFFICULTY_CONFIG) as [
+                      GauntletDifficulty,
+                      (typeof DIFFICULTY_CONFIG)[GauntletDifficulty],
+                    ][]
+                  ).map(([key, config]) => {
+                    const isSelected = key === gauntletDifficulty;
+                    return (
+                      <button
+                        key={key}
+                        onClick={() => {
+                          playClick();
+                          setGauntletDifficulty(key);
+                          gauntletSettings.setDifficulty(
+                            dojoType,
+                            key,
+                          );
+                        }}
+                        className={clsx(
+                          'flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-2xl px-4 pt-3 pb-5 text-sm font-semibold transition-colors duration-300',
+                          isSelected
+                            ? 'border-b-10 border-(--main-color-accent) bg-(--main-color) text-(--background-color)'
+                            : 'bg-transparent text-(--secondary-color) hover:text-(--main-color)',
+                        )}
+                      >
+                        {difficultyIcons[key]}
+                        <span>{config.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className='text-center text-xs text-(--secondary-color)'>
+                  {DIFFICULTY_CONFIG[gauntletDifficulty].description}
+                </p>
+              </div>
+
+              <GameModeCards
+                gameModes={gameModes}
+                selectedGameMode={selectedGameMode}
+                onSelect={selectedMode => {
+                  setSelectedGameMode(selectedMode);
+                  gauntletSettings.setGameMode(dojoType, selectedMode);
+                }}
+              />
+
+              <div className='space-y-3 rounded-2xl bg-(--card-color) p-4'>
+                <p className='text-sm font-medium text-(--main-color)'>
+                  Repetitions per character:
+                </p>
+                <div className='flex flex-wrap justify-center gap-2'>
+                  {REPETITION_OPTIONS.map(rep => (
+                    <ActionButton
+                      key={rep}
+                      onClick={() => {
+                        playClick();
+                        setGauntletRepetitions(rep);
+                        gauntletSettings.setRepetitions(
+                          dojoType,
+                          rep,
+                        );
+                      }}
+                      colorScheme={gauntletRepetitions === rep ? 'main' : 'secondary'}
+                      borderColorScheme={
+                        gauntletRepetitions === rep ? 'main' : 'secondary'
+                      }
+                      borderBottomThickness={10}
+                      borderRadius='3xl'
+                      className={clsx(
+                        'w-auto px-4 py-2',
+                        gauntletRepetitions !== rep && 'opacity-60',
+                      )}
+                    >
+                      {rep}×
+                    </ActionButton>
+                  ))}
+                </div>
+              </div>
+            </>
           )}
 
           {/* Action Buttons */}
@@ -407,6 +460,90 @@ const GameModes = ({
   );
 };
 
+function GameModeCards({
+  gameModes,
+  selectedGameMode,
+  onSelect,
+}: {
+  gameModes: Array<{
+    id: 'Pick' | 'Type';
+    title: string;
+    description: string;
+    icon: typeof MousePointerClick;
+  }>;
+  selectedGameMode: string;
+  onSelect: (mode: 'Pick' | 'Type') => void;
+}) {
+  const { playClick } = useClick();
+
+  return (
+    <div className='space-y-3'>
+      {gameModes.map(gameModeOption => {
+        const isSelected = gameModeOption.id === selectedGameMode;
+        const Icon = gameModeOption.icon;
+
+        return (
+          <button
+            key={gameModeOption.id}
+            onClick={() => {
+              playClick();
+              onSelect(gameModeOption.id);
+            }}
+            className={clsx(
+              'w-full rounded-2xl p-5 text-left hover:cursor-pointer',
+              'flex items-center gap-4 border-2 bg-(--card-color)',
+              isSelected ? 'border-(--main-color)' : 'border-(--border-color)',
+            )}
+          >
+            <div
+              className={clsx(
+                'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl',
+                isSelected
+                  ? 'bg-(--main-color) text-(--background-color)'
+                  : 'bg-(--border-color) text-(--muted-color)',
+              )}
+            >
+              <Icon size={24} />
+            </div>
+            <div className='min-w-0 flex-1'>
+              <h3 className='text-lg font-medium text-(--main-color)'>
+                {gameModeOption.title}
+              </h3>
+              <p className='mt-0.5 text-sm text-(--secondary-color)'>
+                {gameModeOption.description}
+              </p>
+            </div>
+            <div
+              className={clsx(
+                'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
+                isSelected
+                  ? 'border-(--secondary-color) bg-(--secondary-color)'
+                  : 'border-(--border-color)',
+              )}
+            >
+              {isSelected && (
+                <svg
+                  className='h-3 w-3 text-(--background-color)'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={3}
+                    d='M5 13l4 4L19 7'
+                  />
+                </svg>
+              )}
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 // Sub-component for displaying selected levels/groups
 function SelectedLevelsCard({
   currentDojo,
@@ -442,5 +579,5 @@ function SelectedLevelsCard({
   );
 }
 
-export default GameModes;
+export default ModeSetupMenu;
 
