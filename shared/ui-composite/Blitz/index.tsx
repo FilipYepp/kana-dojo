@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
+import { useRouter } from '@/core/i18n/routing';
 import { useChallengeTimer } from '@/shared/hooks/game/useChallengeTimer';
 import { useGoalTimers } from '@/shared/hooks/game/useGoalTimers';
 import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
@@ -16,7 +17,7 @@ import {
 
 import EmptyState from './EmptyState';
 import ActiveGame from './ActiveGame';
-import ResultsScreen from './ResultsScreen';
+import SessionSummaryScreen from '@/shared/ui-composite/Game/SessionSummaryScreen';
 import type { BlitzGameMode, BlitzConfig } from './types';
 
 // Re-export types for external use
@@ -28,6 +29,7 @@ interface BlitzProps<T> {
 
 export default function Blitz<T>({ config }: BlitzProps<T>) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const { playClick } = useClick();
   const { playCorrect } = useCorrect();
@@ -464,7 +466,8 @@ export default function Blitz<T>({ config }: BlitzProps<T>) {
 
   if (isFinished) {
     return (
-      <ResultsScreen
+      <SessionSummaryScreen
+        mode='blitz'
         dojoType={dojoType}
         challengeDuration={challengeDuration}
         stats={{
@@ -474,7 +477,8 @@ export default function Blitz<T>({ config }: BlitzProps<T>) {
         }}
         showGoalTimers={showGoalTimers}
         goals={goalTimers.goals}
-        onRestart={handleStart}
+        onNewSession={handleStart}
+        onBackToSelection={() => router.push(`/${dojoType}`)}
         endedReason={endedReason}
       />
     );

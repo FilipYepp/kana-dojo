@@ -17,7 +17,7 @@ import {
 } from '@/shared/utils/sessionHistory';
 import EmptyState from './EmptyState';
 import ActiveGame from './ActiveGame';
-import ResultsScreen from './ResultsScreen';
+import SessionSummaryScreen from '@/shared/ui-composite/Game/SessionSummaryScreen';
 import {
   DIFFICULTY_CONFIG,
   type GauntletConfig,
@@ -827,21 +827,14 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
 
   if (phase === 'results' && sessionStats) {
     return (
-      <ResultsScreen
+      <SessionSummaryScreen
+        mode='gauntlet'
         dojoType={dojoType}
         stats={sessionStats}
         isNewBest={isNewBest}
         endedReason={endedReason}
-        onRestart={handleStart}
-        onChangeSettings={() => {
-          if (isGauntletRoute) {
-            router.push(`/${dojoType}`);
-            return;
-          }
-          if (onCancel) {
-            onCancel();
-            return;
-          }
+        onNewSession={handleStart}
+        onBackToSelection={() => {
           router.push(`/${dojoType}`);
         }}
       />
